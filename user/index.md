@@ -23,3 +23,9 @@ If the device can't reach the SNReg server, you can still log in with your passw
 ## My assets
 
 **Assets** lists the equipment assigned to you and anything owned by your groups. Scanning the QR code on a label opens that item after you sign in.
+
+## Getting support
+
+Open **Support** and choose **New ticket**. Pick a request type, describe the problem and submit. Your name, groups and devices are attached for you, and if you have one active device it's already selected.
+
+From **Support** you can follow your tickets, reply and close them. **Notifications** shows when someone replies or a ticket's status changes.
