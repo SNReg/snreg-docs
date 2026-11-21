@@ -78,3 +78,28 @@ Changes reach online devices within seconds. Each device reports whether it comp
 Scripts are Lua (sandboxed: no shell, no network, read-only access to system information) or Bash (runs as root). Devices run only scripts signed by a key they trust. Scripts saved in the console are signed with the server's key, which every device trusts from enrollment. To use scripts signed elsewhere (for example the SNReg script library), paste the minisign signature, and add the signer's public key to `/etc/snreg/trusted_keys/` on the devices.
 
 **Run** a script on one device or on every device in a group. Results (status, output, the data the script returned) show under Jobs and on each device's page.
+
+## Tickets
+
+**Set up a queue.** A queue is a group. Give the group the `helpdesk_agent` role and add your agents to it.
+
+**Create a form.** Open **Forms**, choose the queue, and describe the fields as JSON. Besides the standard field types, `device_picker` and `asset_picker` offer only the requester's own devices and assets.
+
+**Routing rules** run in order, and the first match wins. If none matches, the ticket goes to the form's queue.
+
+```json
+[
+  {
+    "when": { "category": "hardware", "device_label": "site=oslo" },
+    "then": { "group_id": "grp_…", "priority": "high" }
+  }
+]
+```
+
+A rule can match on `answers`, `category`, `requester_group` and `device_label`. It can set `group_id`, `priority` and `assignee_id`.
+
+**Working a ticket.** Click the requester, a device or an asset to open it in the right pane. The URL keeps both, so you can share the view. Internal notes are never shown to the requester. Type `@username` to notify another agent.
+
+**Access.** Agents see only the queues of groups they belong to. Removing an agent from a group takes effect immediately, and their open tickets in that queue become unassigned.
+
+Notifications are in-app only for now. Email sending is not implemented, even if `[smtp]` is configured.
