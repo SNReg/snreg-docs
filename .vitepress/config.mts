@@ -23,6 +23,7 @@ export default defineConfig({
             { text: "0004 Identity choices (P1)", link: "/adr/0004-identity-p1-choices" },
             { text: "0005 Device management choices (P2)", link: "/adr/0005-device-management-p2-choices" },
             { text: "0008 Customization, CLI and console (P5)", link: "/adr/0008-customization-p5-choices" },
+            { text: "0009 Mobile app (P6)", link: "/adr/0009-mobile-p6-choices" },
           ],
         },
       ],
