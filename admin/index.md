@@ -103,3 +103,42 @@ A rule can match on `answers`, `category`, `requester_group` and `device_label`.
 **Access.** Agents see only the queues of groups they belong to. Removing an agent from a group takes effect immediately, and their open tickets in that queue become unassigned.
 
 Notifications are in-app only for now. Email sending is not implemented, even if `[smtp]` is configured.
+
+## Dashboard
+
+The home page shows device status counts, open tickets by queue and assets by status. You only see the sections your roles cover.
+
+## Customizing records
+
+Open **Customize** and pick a record type (asset, device, user, group or ticket).
+
+- **Fields** add custom data without a redeploy. A field can be required, limited to certain asset kinds, or restricted to certain roles. Deleting a field also deletes its values from every record.
+- **List views** choose the columns, sort and saved filters for the Assets list. A view can be shared with everyone or kept for yourself.
+- **Detail layout** groups custom fields into titled sections across one to three columns. Write one section per line, like `Finance: cost_center, budget_code`.
+- **Export and import** moves fields, shared views and layouts between installs as a JSON file.
+
+Custom asset fields also appear in the Assets filter and in CSV export and import, as `custom.<key>` columns. Separate multiple values in a CSV cell with `;`.
+
+## Building forms
+
+Under **Forms**, add fields, set each one's type, and use **Up** and **Down** to order them. Keys are filled in from the label. **Edit** changes an existing form.
+
+## Reading the audit log
+
+**Audit log** lists every change, newest first, for admins and auditors. Filter it by action prefix (such as `ticket.`), actor ID or target ID.
+
+## Command-line tool
+
+`snreg login --server https://snreg.example.org` signs in and stores a token in `~/.config/snreg/config.toml`.
+
+```sh
+snreg user list
+snreg device run check-disk --group lab
+snreg token create --name lab --max-uses 50 --expires 30d
+snreg asset label SN-000123 -o labels.pdf
+snreg ticket comment 1234 "Replacement is on the way"
+snreg schema export -o schema.json
+snreg api GET /dashboard
+```
+
+Add `--json` for machine-readable output. The exit code is 0 on success, 1 for a user error and 2 for a server error.
