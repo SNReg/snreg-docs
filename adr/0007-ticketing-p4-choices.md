@@ -15,10 +15,11 @@ Spec §6.4 leaves several behaviors open. These are the choices made for P4.
 - **Split-screen data** comes from `/tickets/{id}/entities/{entity}`. Helpdesk agents don't hold the user or device admin roles, so they read a fixed field summary, only for entities linked to a ticket in their queue. Asset cost is excluded. Quick actions still call the existing admin endpoints, which enforce their own roles.
 - **Pre-selection**: with exactly one active device, the server fills an unanswered `device_picker`.
 - **Markdown** is rendered to React elements by a small built-in renderer, with no raw HTML and only `http(s)` links.
+- **Status after a reply**: a public agent reply moves `new` to `open`, and a requester reply moves `pending` or `resolved` to `open`. Internal notes change nothing. The change is audited and emitted, but adds no second notification because the reply already sends one.
+- **Detail pages** list tickets through `GET /tickets?entity=`, so an agent only sees tickets in their queues. People without the helpdesk role don't see the Tickets section.
 - **Form and rule editing** is a JSON text field in P4. The visual form builder is P5.
 
 ## Consequences
 
 - Sending email is not implemented. `[smtp]` has no effect yet, so P4 notifications are in-app only.
-- The user and device detail pages don't list tickets yet (spec §6.1, §6.2).
 - Portal lists show the newest 200 tickets per user.
