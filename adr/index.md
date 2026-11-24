@@ -13,3 +13,4 @@ ADRs are append-only. To change a decision, write a new ADR that supersedes the 
 | [0007](./0007-ticketing-p4-choices) | Ticketing choices the spec left open (P4) | Accepted |
 | [0008](./0008-customization-p5-choices) | Customization, CLI and console choices (P5) | Accepted |
 | [0009](./0009-mobile-p6-choices) | Mobile app choices (P6) | Accepted |
+| [0010](./0010-deployment-p7-choices) | Zero-touch ISO and deployment choices (P7) | Accepted |

@@ -9,6 +9,9 @@ Devices connect to the server over a WireGuard tunnel. The server is the hub: it
 
 ## Enroll a device
 
+To install new machines with no manual steps, use a [zero-touch ISO](./zero-touch). For machines that already run Linux, use the `snreg_agent` Ansible role or the steps below.
+
+
 1. **Devices → Enroll devices…**: create a token. Choose how many devices may use it, how long it's valid, whether they're approved automatically, and which device groups they join.
 2. Install the packages on the device:
 
@@ -31,7 +34,7 @@ A device lets SNReg users log in only if a **login_access** policy targets one o
 
 ## Kernel module
 
-`snreg-kmod-dkms` builds the telemetry module for the running kernel (exec, module-load and USB events). It is optional: without it the device shows as *degraded* and everything else keeps working. With Secure Boot, DKMS signs the module with its MOK key; enroll that key once (`mokutil --import /var/lib/dkms/mok.pub`, then confirm at the next boot).
+`snreg-kmod-dkms` builds the telemetry module for the running kernel (exec, module-load and USB events) and loads it at every boot. It is optional: without it the device shows as *degraded* and everything else keeps working. With Secure Boot, DKMS signs the module with its MOK key; enroll that key once (`mokutil --import /var/lib/dkms/mok.pub`, then confirm at the next boot).
 
 ## Packages
 
