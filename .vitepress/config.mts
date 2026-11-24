@@ -12,7 +12,7 @@ export default defineConfig({
       { text: "ADRs", link: "/adr/" },
     ],
     sidebar: {
-      "/self-hosting/": [{ text: "Self-hosting", items: [{ text: "Install", link: "/self-hosting/" }, { text: "Enrolling devices", link: "/self-hosting/device-login" }] }],
+      "/self-hosting/": [{ text: "Self-hosting", items: [{ text: "Install", link: "/self-hosting/" }, { text: "Enrolling devices", link: "/self-hosting/device-login" }, { text: "Zero-touch ISO", link: "/self-hosting/zero-touch" }] }],
       "/adr/": [
         {
           text: "Architecture decisions",
@@ -22,7 +22,11 @@ export default defineConfig({
             { text: "0003 Event bus delivery", link: "/adr/0003-event-bus-delivery" },
             { text: "0004 Identity choices (P1)", link: "/adr/0004-identity-p1-choices" },
             { text: "0005 Device management choices (P2)", link: "/adr/0005-device-management-p2-choices" },
+            { text: "0006 Asset manager choices (P3)", link: "/adr/0006-asset-manager-p3-choices" },
+            { text: "0007 Ticketing choices (P4)", link: "/adr/0007-ticketing-p4-choices" },
             { text: "0008 Customization, CLI and console (P5)", link: "/adr/0008-customization-p5-choices" },
+            { text: "0009 Mobile app (P6)", link: "/adr/0009-mobile-p6-choices" },
+            { text: "0010 Zero-touch ISO and deployment (P7)", link: "/adr/0010-deployment-p7-choices" },
           ],
         },
       ],

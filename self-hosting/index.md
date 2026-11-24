@@ -2,17 +2,41 @@
 
 SNReg runs as one binary, `snreg-server`, plus PostgreSQL 16 or newer.
 
-## First start
+## Install
+
+Pick one. The package is the main path; Compose and Helm are optional.
+
+**Package (Debian/Ubuntu, Fedora/RHEL).** Install PostgreSQL with it:
 
 ```sh
-snreg-server init                       # creates the master key, applies database migrations
-systemctl enable --now snreg-server     # or: snreg-server serve
-curl https://snreg.example.org/api/v1/health
+apt install ./snreg-server_*_amd64.deb postgresql     # or: dnf install ./snreg-server-*.rpm postgresql-server
+snreg-server init                                     # master key, migrations, first admin
+systemctl enable --now snreg-server
 ```
 
-`init` writes a random 32-byte master key to `master_key_file` with mode `0600`. It never overwrites an existing key. The server refuses to start without one. **Back the key up**: it encrypts secrets stored in the database, and a backup of the database is useless without it.
+The package creates the `snreg` user, a self-signed certificate in `/etc/snreg/`, and, when PostgreSQL runs locally, a database with a random password written to `/etc/snreg/server.toml`. `init` prints the first admin's password once: log in, change it, and set up two-factor. Replace `tls.crt`/`tls.key` with a real certificate before enrolling devices, because agents pin the one in place when they enroll.
+
+**Docker Compose.** `snreg-deploy/compose`: copy `.env.example` to `.env`, set `POSTGRES_PASSWORD` and `SNREG_PUBLIC_URL`, put `tls.crt` and `tls.key` in `./snreg/`, then `docker compose up -d`. The first admin's password is in `docker compose logs init`. The server uses host networking and `NET_ADMIN` for WireGuard.
+
+**Kubernetes (hosted tier).** `snreg-deploy/helm/snreg`. Create a Secret with `database-url` (an external PostgreSQL) and `master-key` (`openssl rand -base64 32`), and a TLS Secret, then install with `publicUrl`, `existingSecret`, `tlsSecret` and `wireguard.endpoint` set. HTTPS and WireGuard get separate LoadBalancer Services.
+
+**Terraform** (`snreg-hetzner`, `snreg-aws`) and **Ansible** (`snreg_server`, `snreg_agent`) in `snreg-deploy` wrap the package path. See their READMEs.
+
+```sh
+curl https://snreg.example.org:8443/api/v1/health
+```
+
+`init` writes a random 32-byte master key to `master_key_file` with mode `0600`. It never overwrites an existing key. The server refuses to start without one; the systemd unit hands it to the service with `LoadCredential`, so the file stays root-only. **Back the key up**: it encrypts secrets stored in the database, and a backup of the database is useless without it.
 
 Database migrations also run automatically at every start, under a lock, so upgrading is: install the new package, restart.
+
+## Backups
+
+```sh
+snreg-server backup /root/snreg-$(date +%F).tar.gz
+```
+
+The archive (mode `0600`) holds `db.dump` (`pg_dump --format=custom`) and `etc/` with `server.toml`, the master key and the TLS pair. It contains the master key, so store it like one. Restore on a fresh install: extract it, put the files from `etc/` back, run `pg_restore --clean --if-exists -d <database> db.dump`, then start the server. `backup` needs the PostgreSQL client (`pg_dump`) of the server's major version; the container image includes it.
 
 ## Configuration
 

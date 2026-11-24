@@ -24,6 +24,17 @@ If the device can't reach the SNReg server, you can still log in with your passw
 
 **Assets** lists the equipment assigned to you and anything owned by your groups. Scanning the QR code on a label opens that item after you sign in.
 
+## Mobile app
+
+Enter your server's `https` address, then sign in with your username, password and two-factor code. The app keeps its own API token, which you can see and revoke under **My account**.
+
+- **Scan** opens the asset on a QR or barcode label, where you can change its status, location and assignee.
+- **Audit** lists open audits. Pick one and scan each item. You'll feel a buzz for each scan. Scans work offline and sync by themselves when you're back online.
+- **Not accepted** in an audit lists scans the server refused, such as an unknown tag or an audit that has closed.
+- **Tickets** shows your queue, where you can read tickets and add comments or internal notes.
+
+You can't sign out while scans are waiting to sync, so they can't be lost.
+
 ## Getting support
 
 Open **Support** and choose **New ticket**. Pick a request type, describe the problem and submit. Your name, groups and devices are attached for you, and if you have one active device it's already selected.
